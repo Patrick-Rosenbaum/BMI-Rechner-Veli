@@ -1,34 +1,31 @@
-name: Cypress Test Pipeline
+name: Cypress Tests
 
 on:
   push
 
 jobs:
   test:
-    runs-on: ubuntu:latest
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repo
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Node.js Setup
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '18'
 
       - name: Install Dependencies
         run: |
-          npm install 
+          npm install
           npm install --save-dev cypress
 
-      - name: Build
-        run: npm run build
-
-      - name: Start node.js Server
+      - name: Start Node.js Server
         run: npm start &
 
-      - name: timeout
+      - name: Wait for Server to Start
         run: sleep 10
 
-      - name: Run Cypress Test
+      - name: Run Cypress Tests
         run: npm test
